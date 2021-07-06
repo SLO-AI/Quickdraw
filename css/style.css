@@ -1,0 +1,179 @@
+:root {
+    --text-color-black: #0f0f0f;
+    --text-color-white: #f9f9f9;
+    --background-color: #fcfcfc;
+
+    --text-area-width: 581px;
+}
+
+html {
+    font-family: 'Open Sans', 'Lato', 'Roboto', sans-serif;
+    background: var(--background-color);
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+
+header {
+    height: 100px;
+    width: 100%;
+    background: #009ef3;
+    display: flex;
+    justify-content: center;
+}
+
+header h1 {
+    margin: 0;
+    align-self: center;
+}
+
+#content {
+    padding: 0 100px;
+}
+
+img {
+    border:1px solid black;
+}
+
+textarea {
+    resize: none;
+    width:581px;
+    height:500px;
+    font-size:8pt;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+button, input[type=file] {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 2px;
+    padding: 2px;
+}
+
+button:hover, input[type=file]:hover {
+    background: #1F3763;
+    color: white;
+}
+
+button:focus, input[type=file]:focus {
+    box-shadow: 0 0 0 2px #1abc9c;
+}
+
+button:active, input[type=file]:active {
+    background: #2c3e50;
+    color: white;
+}
+
+#settings #setting-list {
+    display: flex;
+    flex-direction: column;
+}
+
+#setting-list .setting {
+    width: 300px;
+    margin: 2px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#setting-list .setting label {
+    margin: 5px 0;
+}
+
+#setting-list .setting input {
+    max-width: 100px;
+}
+
+#setting-list .setting input[type=checkbox] {
+    width: 100px;
+}
+
+#data-input {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content: space-between;
+}
+
+#data-input .input-column {
+    width: 581px;
+}
+
+#drawing-canvas {
+    height: 400px;
+    width: 400px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    border: 2px solid black;
+}
+
+.drop-area {
+    position: relative;
+    border: 2px dashed rgb(118, 118, 118);
+    color: var(--text-color-black);
+    line-height: 30px;
+    border-radius: 20px;
+    width: 100%;
+    height: 100px;
+    margin: 10px auto;
+    display: table;
+}
+
+.drop-area .drop-text{
+    text-align: center;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.drop-area .drop-input{
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-area:hover {
+    border-color: #2c3e50;
+    color: #2c3e50;
+}
+
+.drop-area.highlight {
+    border-color: #d6a14d;
+}
+
+footer {
+    padding-top: 50px;
+    text-align: center;
+}

@@ -1,0 +1,108 @@
+<html lang="en">
+	<head>
+		<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+		<title>Emoticon</title>
+		<link href="css/normalize.css" rel="stylesheet">
+		<link href="css/style.css" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
+		<link href="favicon.ico" rel="icon" type="image/ico">
+	</head>
+	<body>
+
+	<header>
+		<h1>Emoticons</h1>
+	</header>
+
+	<div id="content">
+		<div id="settings">
+			<h2>
+				Settings
+			</h2>
+
+			<div id="setting-list">
+				<div class="setting">
+					<label for="layers">Deep Layers</label><input id="layers" type="text" value="[3]">
+				</div>
+				<div class="setting">
+					<label for="errorThresh">Error Threshold</label><input id="errorThresh" type="text" value="0.005">
+				</div>
+				<div class="setting">
+					<label for="iterations">Iteraties</label><input id="iterations" type="text" value="1000">
+				</div>
+				<div class="setting">
+					<label for="gpu">Videokaart gebruiken</label><input id="gpu" type="checkbox" checked>
+				</div>
+			</div>
+			<div id="buttons">
+
+				<button id="train-button" class="big-button" onclick="emote.train()" type="button">Train</button>
+				<button id="test-button" class="big-button" onclick="emote.test()" type="button">Test</button>
+			</div>
+		</div>
+		<div id="data-input">
+			<div class="input-column">
+				<h2>
+					Train
+				</h2>
+				<img id="train-image" alt="Datset Image" src="img/TEST.png">
+
+				<div id="train-files-drop" class="drop-area">
+					<input id="train-files" class="drop-input" type="file" multiple>
+					<div class="drop-text">
+						Sleep hier je train data naartoe<br>Of klik op dit veld om ze te selecteren.
+					</div>
+				</div>
+
+				<label for="train-data">Train Data: </label><textarea id="train-data" readonly></textarea><br>
+
+				<div id="output-block">
+					<h2>
+						Output
+					</h2>
+					<div id="stats"></div>
+					<div id="output"></div>
+				</div>
+			</div>
+			<div class="input-column">
+				<h2>
+					Test
+				</h2>
+				<img id="test-image" alt="Datset Image" src="img/TEST.png">
+				<div id="test-files-drop" class="drop-area">
+					<input id="test-files" class="drop-input" type="file">
+					<div class="drop-text">
+						Sleep hier je test data naartoe<br>Of klik op dit veld om ze te selecteren.
+					</div>
+				</div>
+
+				<label for="test-data">Test Data</label><textarea id="test-data" readonly></textarea>
+
+				<div id="drawing-board">
+					<h3>
+						Draw
+					</h3>
+					<div id="drawing-items">
+						<canvas id="drawing-canvas"></canvas>
+						<div id="drawing-buttons">
+							<button id="clear-test-button" onclick="emote.clearBoard()" type="button">Clear</button>
+							<button id="run-test-button" onclick="emote.processBoardData()" type="button">Load Image</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<footer>
+		Deze website is gemaakt voor de module Cognitive Computing, ten behoeve van SLO.
+	</footer>
+	</body>
+
+
+
+	<script src="js/brain.js"></script>
+	<script src="js/emote.js"></script>
+</html>
