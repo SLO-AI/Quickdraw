@@ -52,6 +52,8 @@ const DrawingCanvas = function (element, width, height) {
     const black = "rgb(0,0,0)";
     const white = "rgb(255,255,255)";
     const context = element.getContext("2d");
+    const styleWidth = element.clientWidth;
+    const styleHeight = element.clientHeight;
     let drawing = false;
     let erasing = false;
 
@@ -78,14 +80,11 @@ const DrawingCanvas = function (element, width, height) {
      */
     this.getCanvas = function () {
         return element;
-    }
+    };
 
     const init = function () {
         element.width = width;
         element.height = height;
-
-        element.style.width = "400px";
-        element.style.height = "400px";
 
         element.addEventListener("mousedown", (evt) => {
             if (evt.button === 2) {
@@ -119,8 +118,8 @@ const DrawingCanvas = function (element, width, height) {
             if (erasing)
                 color = white;
 
-            const x = Math.round((evt.x + window.scrollX - element.offsetLeft) / 400 * 64);
-            const y = Math.round((evt.y + window.scrollY - element.offsetTop) / 400 * 64);
+            const x = Math.round((evt.x + window.scrollX - element.offsetLeft) / styleWidth * 64);
+            const y = Math.round((evt.y + window.scrollY - element.offsetTop) / styleHeight * 64);
 
             context.beginPath();
             context.fillStyle = color;
@@ -203,7 +202,6 @@ const ImageProcess = function (imageElement, onFinish, flip=false) {
 /**
  * Handle files upon selection. Will process the files and generate a dataset.
  *
- * @param fileElement {HTMLElement} The element containing the files.
  * @param imageElement {HTMLImageElement} An image element to render images to.
  * @param onFinish {Function} A function which will be called when the processing is finished. Will be given a single
  *                            parameter, the processed JSON data.
