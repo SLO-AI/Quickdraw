@@ -47,9 +47,6 @@ textarea {
 }
 
 button, input[type=file] {
-    border: none;
-    margin: 0;
-    padding: 0;
     width: auto;
     overflow: visible;
 
@@ -73,6 +70,11 @@ button, input[type=file] {
     border-radius: 5px;
     margin: 2px;
     padding: 2px;
+    cursor: pointer;
+}
+
+button.big-button {
+    font-size: 15pt;
 }
 
 button:hover, input[type=file]:hover {
@@ -81,11 +83,11 @@ button:hover, input[type=file]:hover {
 }
 
 button:focus, input[type=file]:focus {
-    box-shadow: 0 0 0 2px #1abc9c;
+    box-shadow: 0 0 0 1px black;
 }
 
 button:active, input[type=file]:active {
-    background: #2c3e50;
+    background: #1abc9c;
     color: white;
 }
 
