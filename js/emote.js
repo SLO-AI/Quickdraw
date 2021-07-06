@@ -248,10 +248,10 @@ const FileHandler = function (imageElement, onFinish) {
     /**
      * Processes the files obtained through the given event.
      *
-     * @param event {Event} The event.
+     * @param files {[File]} The event.
      */
-    this.onSelectFiles = function (event) {
-        handleFiles(event.target.files);
+    this.onSelectFiles = function (files) {
+        handleFiles(files);
     }
 }
 
@@ -309,7 +309,7 @@ const DropArea = function(dropElement, onDrop) {
 
         _dropInput = _dropArea.getElementsByClassName("drop-input").item(0);
 
-        _dropInput.addEventListener("change", (evt) => onDrop(evt));
+        _dropInput.addEventListener("change", (evt) => onDrop(evt.target.files));
     };
 
     init();
