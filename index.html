@@ -16,37 +16,47 @@
 	</header>
 
 	<div id="content">
-		<div id="settings">
-			<h2>
-				Settings
-			</h2>
+		<div id="top-info">
+			<div id="settings">
+				<h2>
+					Instellingen
+				</h2>
 
-			<div id="setting-list">
-				<div class="setting">
-					<label for="layers">Deep Layers</label><input id="layers" type="text" value="[3]">
+				<div id="setting-list">
+					<div class="setting">
+						<label for="layers">Deep Layers</label><input id="layers" type="text" value="[3]">
+					</div>
+					<div class="setting">
+						<label for="errorThresh">Error Threshold</label><input id="errorThresh" type="text" value="0.005">
+					</div>
+					<div class="setting">
+						<label for="iterations">Iteraties</label><input id="iterations" type="text" value="1000">
+					</div>
+					<div class="setting">
+						<label for="gpu">Videokaart gebruiken</label><input id="gpu" type="checkbox" checked>
+					</div>
 				</div>
-				<div class="setting">
-					<label for="errorThresh">Error Threshold</label><input id="errorThresh" type="text" value="0.005">
-				</div>
-				<div class="setting">
-					<label for="iterations">Iteraties</label><input id="iterations" type="text" value="1000">
-				</div>
-				<div class="setting">
-					<label for="gpu">Videokaart gebruiken</label><input id="gpu" type="checkbox" checked>
+				<div id="buttons">
+
+					<button id="train-button" class="big-button" onclick="emote.train()" type="button">Train</button>
+					<button id="test-button" class="big-button" onclick="emote.test()" type="button">Test</button>
 				</div>
 			</div>
-			<div id="buttons">
-
-				<button id="train-button" class="big-button" onclick="emote.train()" type="button">Train</button>
-				<button id="test-button" class="big-button" onclick="emote.test()" type="button">Test</button>
+			<div id="output-block">
+				<h2>
+					Output
+				</h2>
+				<div id="stats"></div>
+				<div id="output"></div>
 			</div>
 		</div>
+
 		<div id="data-input">
 			<div class="input-column">
 				<h2>
 					Train
 				</h2>
-				<img id="train-image" alt="Datset Image" src="img/TEST.png">
+				<img id="train-image" alt="Datset Image" src="img/empty.png">
 
 				<div id="train-files-drop" class="drop-area">
 					<input id="train-files" class="drop-input" type="file" multiple>
@@ -55,21 +65,13 @@
 					</div>
 				</div>
 
-				<label for="train-data">Train Data: </label><textarea id="train-data" readonly></textarea><br>
-
-				<div id="output-block">
-					<h2>
-						Output
-					</h2>
-					<div id="stats"></div>
-					<div id="output"></div>
-				</div>
+				<label for="train-data">Train Data </label><textarea id="train-data" readonly></textarea><br>
 			</div>
 			<div class="input-column">
 				<h2>
 					Test
 				</h2>
-				<img id="test-image" alt="Datset Image" src="img/TEST.png">
+				<img id="test-image" alt="Datset Image" src="img/empty.png">
 				<div id="test-files-drop" class="drop-area">
 					<input id="test-files" class="drop-input" type="file">
 					<div class="drop-text">
@@ -86,8 +88,8 @@
 					<div id="drawing-items">
 						<canvas id="drawing-canvas"></canvas>
 						<div id="drawing-buttons">
-							<button id="clear-test-button" onclick="emote.clearBoard()" type="button">Clear</button>
-							<button id="run-test-button" onclick="emote.processBoardData()" type="button">Load Image</button>
+							<button id="clear-test-button" onclick="emote.clearBoard()" type="button">Wissen</button>
+							<button id="run-test-button" onclick="emote.processBoardData()" type="button">Plaatje inladen</button>
 						</div>
 					</div>
 				</div>
@@ -103,6 +105,6 @@
 
 
 
-	<script src="js/brain.js"></script>
+	<script src="js/brain-browser.js"></script>
 	<script src="js/emote.js"></script>
 </html>

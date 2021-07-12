@@ -14,10 +14,10 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
      * Train the network with training data.
      *
      * @param trainingData {JSON} Json dataset
-     * @return {*}
+     * @return {Promise}
      */
     this.train = function (trainingData) {
-        return net.train(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
+        return net.trainAsync(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
     }
 
     /**
@@ -359,18 +359,27 @@ const Emote = function () {
 
         clearOutput();
 
-        statusElement.innerHTML = "Training network...";
+        statusElement.innerHTML = "Netwerk aan het trainen...";
+        document.body.style.cursor = "wait";
 
         try {
-            stats = network.train(trainingData)
+            let promise = network.train(trainingData);
+
+            promise.then((item) => {
+                document.body.style.cursor = "unset";
+                statusElement.innerHTML = JSON.stringify(stats, null, 2);
+                // "Stats: error=" + stats.error.toString() + " iterations=" + stats.iterations.toString();
+
+                networkChanged = false;
+            });
+            promise.catch((error) => {
+                statusElement.innerHTML = "Error tijdens het trainen!\n" + error.error;
+                document.body.style.cursor = "unset";
+            })
         } catch {
             statusElement.innerHTML = "Error tijdens het trainen!";
+            document.body.style.cursor = "unset";
         }
-
-        statusElement.innerHTML = JSON.stringify(stats, null, 2);
-        // "Stats: error=" + stats.error.toString() + " iterations=" + stats.iterations.toString();
-
-        networkChanged = false;
     };
 
     /**
@@ -381,10 +390,14 @@ const Emote = function () {
             outputElement.innerHTML = "Test mislukt. Geen data om te testen!";
             return;
         }
+        if (network == null) {
+            outputElement.innerHTML = "Netwerk is nog niet getraind."
+            return;
+        }
 
         clearOutput();
         const prediction = network.test(testData);
-        outputElement.innerHTML = "Test result: " + prediction;
+        outputElement.innerHTML = "Test resultaat: " + prediction;
     };
 
     /**

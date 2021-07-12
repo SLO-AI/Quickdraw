@@ -91,6 +91,16 @@ button:active, input[type=file]:active {
     color: white;
 }
 
+#top-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#settings {
+    flex: 1;
+}
+
 #settings #setting-list {
     display: flex;
     flex-direction: column;
@@ -114,6 +124,11 @@ button:active, input[type=file]:active {
 
 #setting-list .setting input[type=checkbox] {
     width: 100px;
+}
+
+#output {
+    flex: 1;
+    width: 500px;
 }
 
 #data-input {
