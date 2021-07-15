@@ -475,7 +475,7 @@ const Emote = function () {
                             document.getElementById("train-data").innerHTML = data;
                             networkChanged = true;
                             document.body.style.cursor = "unset";
-                        })
+                        });
                 });
             new DropArea(document.getElementById('train-files-drop'),
                 (evt) => {
