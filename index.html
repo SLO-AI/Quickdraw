@@ -46,8 +46,14 @@
 				<h2>
 					Output
 				</h2>
-				<div id="stats"></div>
-				<div id="output"></div>
+				<div id="stats">
+					<label>
+						<textarea id="output-stats"></textarea>
+					</label>
+				</div>
+				<div id="output">
+					<label><textarea id="output-area"></textarea></label>
+				</div>
 			</div>
 		</div>
 
@@ -65,7 +71,7 @@
 					</div>
 				</div>
 
-				<label for="train-data">Train Data </label><textarea id="train-data" readonly></textarea><br>
+				<label for="train-data">Train Data </label><textarea id="train-data" readonly spellcheck="false"></textarea><br>
 			</div>
 			<div class="input-column">
 				<h2>
@@ -79,17 +85,25 @@
 					</div>
 				</div>
 
-				<label for="test-data">Test Data</label><textarea id="test-data" readonly></textarea>
+				<label for="test-data">Test Data</label><textarea id="test-data" readonly spellcheck="false"></textarea>
 
 				<div id="drawing-board">
 					<h3>
-						Draw
+						Tekenen
 					</h3>
 					<div id="drawing-items">
 						<canvas id="drawing-canvas"></canvas>
-						<div id="drawing-buttons">
-							<button id="clear-test-button" onclick="emote.clearBoard()" type="button">Wissen</button>
-							<button id="run-test-button" onclick="emote.processBoardData()" type="button">Plaatje inladen</button>
+						<div class="actions">
+							<div class="info">
+								Teken je eigen test plaatje! <br>
+								Linker muisknop: Tekenen<br>
+								Rechter muisknop: Wissen<br>
+								Als je tevreden bent kan je het plaatje omzetten naar test data, door op "Inladen" te klikken!
+							</div>
+							<div class="buttons">
+								<button onclick="emote.clearBoard()" type="button">Wissen</button>
+								<button onclick="emote.processBoardData()" type="button">Inladen</button>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -14,10 +14,13 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
      * Train the network with training data.
      *
      * @param trainingData {JSON} Json dataset
-     * @return {Promise}
+     * @return {*}
      */
     this.train = function (trainingData) {
-        return net.trainAsync(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
+
+        // TODO: make async. TrainAsync is throwing errors. Issue @ brain.js
+        // return net.trainAsync(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
+        return net.train(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
     }
 
     /**
@@ -86,48 +89,57 @@ const DrawingCanvas = function (element, width, height) {
         element.width = width;
         element.height = height;
 
-        element.addEventListener("mousedown", (evt) => {
-            if (evt.button === 2) {
-                erasing = true;
+        ['mousedown', 'touchstart'].forEach(
+            eventName => element.addEventListener(eventName, (evt) => {
+                if (evt.button === 2) {
+                    erasing = true;
+                    drawing = false;
+                } else {
+                    drawing = true;
+                    erasing = false;
+                }
+            }));
+
+        ['mouseup', 'touchend', 'touchcancel', 'mouseleave'].forEach(
+            eventName => element.addEventListener(eventName, (evt) => {
                 drawing = false;
-            } else {
-                drawing = true;
                 erasing = false;
-            }
-        });
+            }));
 
-        element.addEventListener("mouseup", (evt) => {
-            drawing = false;
-            erasing = false;
-        });
 
-        element.addEventListener("mouseleave", (evt) => {
-            drawing = false;
-        });
 
         element.addEventListener("contextmenu", (evt) => {
             evt.preventDefault();
             return false;
         });
 
-        element.addEventListener("mousemove", (evt) => {
-            if (!drawing && !erasing)
-                return;
+        ['mousemove', 'touchmove'].forEach(
+            eventName => element.addEventListener(eventName, (evt) => {
+                if (!drawing && !erasing)
+                    return;
 
-            let color = black;
-            if (erasing)
-                color = white;
+                let color = black;
+                if (erasing)
+                    color = white;
 
-            const x = Math.round((evt.x + window.scrollX - element.offsetLeft) / styleWidth * 64);
-            const y = Math.round((evt.y + window.scrollY - element.offsetTop) / styleHeight * 64);
+                let eventX = evt.x;
+                let eventY = evt.y;
 
-            context.beginPath();
-            context.fillStyle = color;
-            context.strokeStyle = color;
-            context.fillRect(x, y, 1, 1);
-            context.fill();
-            context.stroke();
-        });
+                if (isNaN(eventX)) {
+                    eventX = evt.touches[0].clientX;
+                    eventY = evt.touches[0].clientY;
+                }
+
+                const x = Math.round((eventX + window.scrollX - element.offsetLeft) / styleWidth * 64);
+                const y = Math.round((eventY + window.scrollY - element.offsetTop) / styleHeight * 64);
+
+                context.beginPath();
+                context.fillStyle = color;
+                context.strokeStyle = color;
+                context.fillRect(x, y, 1, 1);
+                context.fill();
+                context.stroke();
+            }));
 
         fillWhite();
     };
@@ -363,19 +375,21 @@ const Emote = function () {
         document.body.style.cursor = "wait";
 
         try {
-            let promise = network.train(trainingData);
+            let stats = network.train(trainingData);
+            document.body.style.cursor = "unset";
+            statusElement.innerHTML = JSON.stringify(stats, null, 2);
 
-            promise.then((item) => {
-                document.body.style.cursor = "unset";
-                statusElement.innerHTML = JSON.stringify(stats, null, 2);
-                // "Stats: error=" + stats.error.toString() + " iterations=" + stats.iterations.toString();
-
-                networkChanged = false;
-            });
-            promise.catch((error) => {
-                statusElement.innerHTML = "Error tijdens het trainen!\n" + error.error;
-                document.body.style.cursor = "unset";
-            })
+            // promise.then((item) => {
+            //     document.body.style.cursor = "unset";
+            //     statusElement.innerHTML = JSON.stringify(stats, null, 2);
+            //     // "Stats: error=" + stats.error.toString() + " iterations=" + stats.iterations.toString();
+            //
+            //     networkChanged = false;
+            // });
+            // promise.catch((error) => {
+            //     statusElement.innerHTML = "Error tijdens het trainen!\n" + error.error;
+            //     document.body.style.cursor = "unset";
+            // })
         } catch {
             statusElement.innerHTML = "Error tijdens het trainen!";
             document.body.style.cursor = "unset";
@@ -419,13 +433,15 @@ const Emote = function () {
         ip.processCanvas(drawingCanvas.getCanvas())
     };
 
-    const dataToString = function (passedObj) {
-        let output = "";
+    // TODO: make async
+    const dataToString = function (passedObj, onFinish) {
+        const worker = new Worker("js/stringify.js");
 
-        for (const i of passedObj) {
-            output += JSON.stringify(i) + "\n";
-        }
-        return output;
+        worker.onmessage = function (e) {
+            onFinish(e.data);
+        };
+
+        worker.postMessage({"message": "stringify", "data": passedObj});
     };
 
     const init = function () {
@@ -451,11 +467,22 @@ const Emote = function () {
             const fileHandlerTrain = new FileHandler(document.getElementById("train-image"),
                 (dataList) => {
                     trainingData = dataList;
-                    document.getElementById("train-data").innerHTML = dataToString(dataList);
-                    networkChanged = true;
+                    document.body.style.cursor = "wait";
+                    document.getElementById("train-data").innerHTML = "";
+
+                    dataToString(dataList,
+                        (data) => {
+                            document.getElementById("train-data").innerHTML = data;
+                            networkChanged = true;
+                            document.body.style.cursor = "unset";
+                        })
                 });
             new DropArea(document.getElementById('train-files-drop'),
-                (evt) => fileHandlerTrain.onSelectFiles(evt));
+                (evt) => {
+                    document.body.style.cursor = "wait";
+
+                    fileHandlerTrain.onSelectFiles(evt);
+            });
 
             // Create listeners for settings
             document.getElementById('layers').addEventListener("change", (evt) => {

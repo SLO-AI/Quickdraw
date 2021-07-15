@@ -7,7 +7,7 @@
     --secondary-color: #5CBDC5;
     --secondary-blue: #001361;
 
-    --text-area-width: 581px;
+    --text-area-width: 585px;
 }
 
 html {
@@ -26,6 +26,7 @@ header {
     background: var(--main-color);
     display: flex;
     justify-content: center;
+    color: var(--text-color-white);
 }
 
 header h1 {
@@ -35,19 +36,6 @@ header h1 {
 
 #content {
     padding: 0 100px;
-}
-
-img {
-    border:1px solid black;
-}
-
-textarea {
-    resize: none;
-    width:581px;
-    height:500px;
-    font-size:8pt;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 button, input[type=file] {
@@ -82,7 +70,7 @@ button.big-button {
 }
 
 button:hover, input[type=file]:hover {
-    background: #1F3763;
+    background: var(--secondary-blue);
     color: white;
 }
 
@@ -133,7 +121,12 @@ button:active, input[type=file]:active {
 
 #output {
     flex: 1;
-    width: 500px;
+    width: var(--text-area-width);
+}
+
+#output-block textarea {
+    height: 40px;
+    resize: none;
 }
 
 #data-input {
@@ -145,7 +138,26 @@ button:active, input[type=file]:active {
 }
 
 #data-input .input-column {
-    width: 581px;
+    width: var(--text-area-width);
+}
+
+#data-input .input-column img {
+    border:1px solid black;
+}
+
+#data-input .input-column textarea {
+    resize: none;
+    height:500px;
+    width: 100%;
+    font-size:8pt;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: 'Open Sans';
+}
+
+#drawing-items {
+    display: flex;
+    justify-content: space-between;
 }
 
 #drawing-canvas {
@@ -157,6 +169,21 @@ button:active, input[type=file]:active {
     image-rendering: crisp-edges;
     border: 2px solid black;
     cursor: crosshair;
+    touch-action: none;
+}
+
+#drawing-items .actions {
+    margin-left: 30px;
+}
+
+#drawing-items .actions .buttons {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#drawing-items .actions .buttons button {
+
 }
 
 .drop-area {
@@ -219,11 +246,36 @@ footer::before {
     box-sizing: inherit;
 }
 
-
 footer {
     padding: 0 0 50px 0;
     margin-top: 50px;
     text-align: center;
     background: var(--secondary-blue);
     color: var(--text-color-white);
+}
+
+@media screen and (max-width: 1400px) {
+    #data-input .input-column {
+        width: 445px;
+    }
+
+    textarea {
+        font-size: 6pt;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    #data-input .input-column {
+        width: 100%;
+    }
+
+    textarea {
+        max-width: 445px;
+    }
+}
+
+@media (pointer:none), (pointer:coarse) {
+    textarea {
+        max-width: 425px;
+    }
 }
