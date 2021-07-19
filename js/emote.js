@@ -411,7 +411,7 @@ const Emote = function () {
 
         clearOutput();
         const prediction = network.test(testData);
-        outputElement.innerHTML = "Test resultaat: " + prediction;
+        outputElement.innerHTML = new Date().toLocaleTimeString("nl-NL") + " Test resultaat: <br/>" + JSON.stringify(prediction);
     };
 
     /**

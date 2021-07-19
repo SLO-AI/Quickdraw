@@ -6,6 +6,7 @@
  */
 const dataToString = function (passedObj, onUpdate, onFinish) {
     for (const i of passedObj) {
+        // TODO: add enters for every 64 chars
         onUpdate(JSON.stringify(i) + "\n");
     }
 
