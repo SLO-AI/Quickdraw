@@ -40,6 +40,7 @@
 
 					<button id="train-button" class="big-button" onclick="emote.train()" type="button">Train</button>
 					<button id="test-button" class="big-button" onclick="emote.test()" type="button">Test</button>
+					<button id="show-network-button" class="big-button" onclick="emote.showSVG()" type="button">Toon Net</button>
 				</div>
 			</div>
 			<div id="output-block">
@@ -54,6 +55,8 @@
 				<div id="output">
 					<label><textarea id="output-area"></textarea></label>
 				</div>
+				<div id="svg-output">
+				</div>
 			</div>
 		</div>
 
@@ -65,7 +68,7 @@
 				<img id="train-image" alt="Datset Image" src="img/empty.png">
 
 				<div id="train-files-drop" class="drop-area">
-					<input id="train-files" class="drop-input" type="file" multiple>
+					<input id="train-files" class="drop-input" type="file" multiple="">
 					<div class="drop-text">
 						Sleep hier je train data naartoe<br>Of klik op dit veld om ze te selecteren.
 					</div>

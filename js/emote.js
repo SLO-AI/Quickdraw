@@ -18,7 +18,8 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
      */
     this.train = function (trainingData) {
 
-        // TODO: make async. TrainAsync is throwing errors. Issue @ brain.js
+        // TODO: make async. TrainAsync is throwing errors. Issue @ brain.js see
+        //  https://github.com/BrainJS/brain.js/issues/721
         // return net.trainAsync(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
         return net.train(trainingData, {errorThreshold: errorThreshold, iterations: iterations});
     }
@@ -30,7 +31,7 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
      * @return {*}
      */
     this.test = function (testData) {
-        return brain.likely(testData, net);
+		return { run: net.run(testData), likely: brain.likely(testData, net)}
     }
 
     const init = function () {
@@ -40,6 +41,10 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
             net = new brain.NeuralNetwork({hiddenLayers: layerList});
     };
 
+    this.getSVG = function() {
+        return brain.utilities.toSVG(net) ? net : null;
+	};
+	
     init();
 }
 
@@ -335,6 +340,7 @@ const DropArea = function(dropElement, onDrop) {
 const Emote = function () {
     const statusElement = document.getElementById('stats');
     const outputElement = document.getElementById("output");
+    const svgOutputElement = document.getElementById("svg-output");
     let network = null;
     let drawingCanvas = null;
     let trainingData = null;
@@ -411,7 +417,11 @@ const Emote = function () {
 
         clearOutput();
         const prediction = network.test(testData);
-        outputElement.innerHTML = new Date().toLocaleTimeString("nl-NL") + " Test resultaat: <br/>" + JSON.stringify(prediction);
+
+        // TODO: maybe split the outputs without using <br>
+        outputElement.innerHTML = new Date().toLocaleTimeString("nl-NL") + " " +
+            "Test resultaat: <br/>" + JSON.stringify(prediction.likely) +
+            "<br/>Hoogste uit:" + JSON.stringify(prediction.run);
     };
 
     /**
@@ -511,7 +521,23 @@ const Emote = function () {
             iterations = JSON.parse(document.getElementById('iterations').value);
             useGpu = document.getElementById("gpu").value !== 0;
         });
-    }
+    };
+
+	this.showSVG = function()
+	{
+		if (network) {
+			if (svgOutputElement.style.display === "none") {
+                svgOutputElement.innerHTML=network.getSVG();
+				document.getElementById("show-network-button").innerHTML= "Verberg Net";
+                svgOutputElement.style.display="block"
+			}
+			else {
+                document.getElementById("show-network-button").innerHTML= "Toon Net";
+                svgOutputElement.innerHTML="";
+                svgOutputElement.style.display="none";
+			}
+		}
+	};
 
     init();
 };
