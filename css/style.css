@@ -149,10 +149,11 @@ button:active, input[type=file]:active {
     resize: none;
     height:500px;
     width: 100%;
-    font-size:8pt;
+    font-size: 5pt;
     overflow-y: auto;
     overflow-x: hidden;
-    font-family: 'Open Sans';
+    font-family: "Open Sans", monospace;
+    font-weight: bolder;
 }
 
 #drawing-items {
@@ -259,8 +260,8 @@ footer {
         width: 445px;
     }
 
-    textarea {
-        font-size: 6pt;
+    #data-input .input-column textarea {
+        font-size: 4.5pt;
     }
 }
 

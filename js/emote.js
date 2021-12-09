@@ -437,7 +437,11 @@ const Emote = function () {
     this.processBoardData = function () {
         const ip = new ImageProcess(document.getElementById("test-image"), (data) => {
             testData = data;
-            document.getElementById("test-data").innerHTML = JSON.stringify(testData);
+
+            dataToString([testData], (str) => {
+                document.getElementById("test-data").innerHTML = str;
+            });
+
         });
 
         ip.processCanvas(drawingCanvas.getCanvas())
@@ -468,7 +472,10 @@ const Emote = function () {
                                 console.warn("Only the first entry will be used");
 
                             testData = dataList[0]["input"];
-                            document.getElementById("test-data").innerHTML = JSON.stringify(testData);
+
+                            dataToString([testData], (stringified) => {
+                                document.getElementById("test-data").innerHTML = stringified;
+                            });
                         });
             new DropArea(document.getElementById('test-files-drop'),
                 (evt) => fileHandlerTest.onSelectFiles(evt));
