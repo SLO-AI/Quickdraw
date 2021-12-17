@@ -41,8 +41,10 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
             net = new brain.NeuralNetwork({hiddenLayers: layerList});
     };
 
-    this.getSVG = function() {
-        return brain.utilities.toSVG(net) ? net : null;
+    this.getSVG = function(x, y) {
+        if (net)
+            return brain.utilities.toSVG(net);
+        return null;
 	};
 	
     init();
@@ -534,14 +536,14 @@ const Emote = function () {
 	{
 		if (network) {
 			if (svgOutputElement.style.display === "none") {
-                svgOutputElement.innerHTML=network.getSVG();
+                svgOutputElement.innerHTML = network.getSVG(svgOutputElement.offsetWidth, svgOutputElement.offsetHeight);
 				document.getElementById("show-network-button").innerHTML= "Verberg Net";
-                svgOutputElement.style.display="block"
+                svgOutputElement.style.display = "block";
 			}
 			else {
-                document.getElementById("show-network-button").innerHTML= "Toon Net";
-                svgOutputElement.innerHTML="";
-                svgOutputElement.style.display="none";
+                document.getElementById("show-network-button").innerHTML = "Toon Net";
+                svgOutputElement.innerHTML = "";
+                svgOutputElement.style.display = "none";
 			}
 		}
 	};
