@@ -42,7 +42,7 @@ const Network = function (layerList, errorThreshold, iterations, gpu=false) {
     };
 
     this.getSVG = function() {
-        return brain.utilities.toSVG(net) ? net : null;
+        return net ? brain.utilities.toSVG(net) : null;
 	};
 	
     init();
