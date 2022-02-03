@@ -337,7 +337,7 @@ const DropArea = function(dropElement, onDrop) {
  *
  * @constructor
  */
-const Emote = function () {
+const Index = function () {
     const statusElement = document.getElementById('stats');
     const outputElement = document.getElementById("output");
     const svgOutputElement = document.getElementById("svg-output");
@@ -549,4 +549,4 @@ const Emote = function () {
     init();
 };
 
-const emote = new Emote();
+const emote = new Index();
